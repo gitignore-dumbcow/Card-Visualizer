@@ -13,7 +13,6 @@ public enum ArmorType
 [Serializable]
 public class Armor : CardDataObject
 {
-    public string _name { get; private set; }
     public ArmorType _type { get; private set; }
     public int _cost { get; private set; }
     public int _ac { get; private set; }
@@ -54,4 +53,5 @@ public class Armor : CardDataObject
         if (typeStr.Contains("shield")) return ArmorType.Shield;
         return ArmorType.Light;
     }
+
 }

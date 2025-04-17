@@ -40,6 +40,8 @@ public abstract class CardDataObject
 {
     public abstract CardDataObject CreateFromJObject(JObject item);
 
+    public string _name { get; protected set; }
+
     protected WeaponType ParseWeaponType(string str)
     {
         return str switch

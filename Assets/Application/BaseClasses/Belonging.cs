@@ -5,7 +5,6 @@ using UnityEngine;
 [Serializable]
 public class Belonging : CardDataObject
 {
-    public string _name { get; private set; }
     public int _cost { get; private set; }
     public Currency _currency { get; private set; }
     public int _weight { get; private set; }
@@ -29,4 +28,5 @@ public class Belonging : CardDataObject
 
         return new Belonging(name, cost, currency, weight);
     }
+
 }

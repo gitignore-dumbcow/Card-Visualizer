@@ -5,7 +5,6 @@ using UnityEngine;
 [Serializable]
 public class Weapon : CardDataObject
 {
-    public string _name { get; private set; }
     public WeaponType _weaponType { get; private set; }
     public int _cost { get; private set; }
     public Currency _currency { get; private set; }

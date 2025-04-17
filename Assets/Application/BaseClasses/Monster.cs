@@ -5,7 +5,6 @@ using UnityEngine;
 [Serializable]
 public class Monster : CardDataObject
 {
-    public string _name { get; private set; }
     public string _description { get; private set; }
     public string _behavior { get; private set; }
     public string _ac { get; private set; }

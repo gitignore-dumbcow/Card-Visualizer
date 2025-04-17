@@ -15,18 +15,10 @@ public class InitializeObjects : MonoBehaviour
     public string spellPath = "spell.json";
     public string weaponPath = "weapon.json";
 
-    public List<Armor> armors = new List<Armor>();
-    public List<Belonging> belongings = new List<Belonging>();
-    public List<Food> foods = new List<Food>();
-    public List<MatAndCom> matAndComs = new List<MatAndCom>();
-    public List<Monster> monsters = new List<Monster>();
-    public List<Spell> spells = new List<Spell>();
-    public List<Weapon> weapons = new List<Weapon>();
-
+    public ObjectDataCollection collection;
 
     private void Start()
     {
-        
 
         // Load JSON files as JObject
         JObject armorJSON = CreateJObjectFromPath(armorDataPath);
@@ -55,14 +47,14 @@ public class InitializeObjects : MonoBehaviour
         JArray spellArray = (JArray)spellJSON[spellKey];
         JArray weaponArray = (JArray)weaponJSON[weaponKey];
 
-        armors = ListFromArray<Armor>(armorArray);
-        foods = ListFromArray<Food>(foodArray);
-        belongings = ListFromArray<Belonging>(belongingArray);
-        spells = ListFromArray<Spell>(spellArray);
-        weapons = ListFromArray<Weapon>(weaponArray);
-        monsters = ListFromArray<Monster>(monsterArray);
+        collection.armors = ListFromArray<Armor>(armorArray);
+        collection.foods = ListFromArray<Food>(foodArray);
+        collection.belongings = ListFromArray<Belonging>(belongingArray);
+        collection.spells = ListFromArray<Spell>(spellArray);
+        collection.weapons = ListFromArray<Weapon>(weaponArray);
+        collection.monsters = ListFromArray<Monster>(monsterArray);
 
-        int sumEntries = armors.Count + belongings.Count + foodArray.Count + monsterArray.Count + spells.Count + weapons.Count;
+        int sumEntries = collection.armors.Count + collection.belongings.Count + foodArray.Count + monsterArray.Count + collection.spells.Count + collection.weapons.Count;
         Debug.Log("Logged " + sumEntries + " entries!");
     }
 

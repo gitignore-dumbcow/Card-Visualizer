@@ -5,7 +5,7 @@ using UnityEngine;
 [Serializable]
 public class Food : CardDataObject
 {
-    public string _name { get; private set; }
+    
     public string _class { get; private set; }
     public string _subClass { get; private set; }
     public int _cost { get; private set; }

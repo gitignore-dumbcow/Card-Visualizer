@@ -5,7 +5,6 @@ using UnityEngine;
 [Serializable]
 public class Spell : CardDataObject
 {
-    public string _name { get; private set; }
     public string _tier { get; private set; }
     public string _school { get; private set; }
     public string _castingTime { get; private set; }
