@@ -2,29 +2,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class ObjectBrowserManager : MonoBehaviour
 {
     public Transform listParent;
     public GameObject objectListItemPF;
     public GameObject scrollView;
-    public ObjectDataCollection data;
+    public DataCollection data;
     public TextMeshProUGUI hoverTextBox;
+
+
 
     private bool open;
 
     //public CardGenerator cardGenerator;
 
-    public void Populate<T>(List<T> objects) where T : CardDataObject
+    public void PopulatePages()
     {
-        foreach (var obj in objects)
+        foreach (DataPage page in data.DataCollectionList)
         {
             GameObject item = Instantiate(objectListItemPF, listParent);
-            item.GetComponentInChildren<TextMeshProUGUI>().text = obj._name;
+            item.GetComponentInChildren<TextMeshProUGUI>().text = page.PageName;
 
-            // Hook the hover script
-            var hoverScript = item.AddComponent<ObjectListItemUI>();
-            hoverScript.SetTarget(obj, hoverTextBox); // `hoverTextBox` is your TMP field in UI
+            // Set the button text (e.g., name of the page)
+            item.GetComponentInChildren<TextMeshProUGUI>().text = page.PageName;
+
+            // Get the button component and add a listener
+            Button button = item.GetComponent<Button>();
+            if (button != null)
+            {
+                // Add listener to button to call the method with the specific page as a parameter
+                button.onClick.AddListener(() => OnPageButtonClick(page, item.transform.GetSiblingIndex()));
+            }
         }
     }
 
@@ -32,21 +42,7 @@ public class ObjectBrowserManager : MonoBehaviour
 
     public void UpdateList()
     {
-        List<Armor> armors = data.armors;
-        List<Belonging> belongings = data.belongings;
-        List<Food> foods = data.foods;
-        List<MatAndCom> matAndComs = data.matAndComs;
-        List<Monster> monsters = data.monsters;
-        List<Spell> spells = data.spells;
-        List<Weapon> weapons = data.weapons;
-
-        Populate(armors);
-        Populate(belongings);
-        Populate(foods);
-        Populate(spells);
-        Populate(weapons);
-        Populate(monsters);
-        Populate(matAndComs);
+        PopulatePages();
 
     }
 
@@ -73,21 +69,38 @@ public class ObjectBrowserManager : MonoBehaviour
 
     }
 
-    private void OnSelectObject(object obj)
+    private void OnPageButtonClick(DataPage page, int buttonChildIndex)
     {
-        System.Type type = obj.GetType();
-        Debug.Log($"--- Selected Object Type: {type.Name} ---");
+        page.extended = !page.extended;
 
-        var props = type.GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
-
-        foreach (var prop in props)
+        if (page.extended)
         {
-            object value = prop.GetValue(obj);
-            Debug.Log($"{prop.Name}: {value}");
-        }
+            int index = buttonChildIndex + 1;
+            foreach (DataItem dataItem in page.List)
+            {
+                GameObject item = Instantiate(objectListItemPF, listParent);
+                item.transform.SetSiblingIndex(index);
+                item.GetComponentInChildren<TextMeshProUGUI>().text = dataItem.DataItemName;
+                page.children.Add(item);
 
-        // You can now pass this object to your card system for auto-generation
-        // cardGenerator.SetSelectedObject(obj);
+                // Set the button text (e.g., name of the page)
+                item.GetComponentInChildren<TextMeshProUGUI>().text = dataItem.DataItemName;
+                index++;
+            }
+        }
+        else
+        {
+            foreach (GameObject child in page.children)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+        
+    }
+
+    private void OnItemButtonClick(DataItem item, int buttonChildIndex)
+    {
+
     }
 
 }
