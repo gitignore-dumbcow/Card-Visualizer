@@ -4,7 +4,7 @@ using SFB; // StandaloneFileBrowser
 using System.IO;
 using System.Collections;
 
-public class CardBaseImageLoader : MonoBehaviour
+public class CardBackgroundLoader : MonoBehaviour
 {
     public RawImage cardBackground; // Assign this in the inspector
 
